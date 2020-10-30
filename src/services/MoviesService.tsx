@@ -60,6 +60,7 @@ class MoviesService {
         .then((response) => resolve(response.data.genres))
         .catch((err) => reject(err.message))
     })
+
   static getMoviesByGenre = (id: number): Promise<Movie[]> =>
     new Promise((resolve, reject) => {
       axios
