@@ -8,7 +8,9 @@ import TouchIcon from '../components/TouchIcon'
 import { PosterList } from '../components'
 import { Movie } from '../types/Movie'
 import MoviesService from '../services/MoviesService'
-import { Genre } from '../types/Genre'
+import { useDispatch } from 'react-redux'
+import { fetchGenres } from '../features/genres'
+import { useTypedSelector } from '../features/useTypedSelector'
 
 type SearchScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SearchScreen'>
 type SearchScreenRouteProp = RouteProp<RootStackParamList, 'SearchScreen'>
@@ -27,11 +29,12 @@ export const SearchScreen: FunctionComponent<Props> = (props: Props) => {
   const [query, setQuery] = useState('')
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState(new Array<Movie>(0))
-  const [genres, setGenres] = useState(new Array<Genre>(0))
   const [genreId, setGenreId] = useState(0)
+  const { data } = useTypedSelector((state) => state.genres)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    void MoviesService.getGenders().then((result) => setGenres(result))
+    dispatch(fetchGenres())
   }, [])
 
   useEffect(() => {
@@ -69,7 +72,7 @@ export const SearchScreen: FunctionComponent<Props> = (props: Props) => {
         onValueChange={(itemValue) => setGenreId(Number(itemValue))}>
         <Picker.Item label="Gênero" value={INVALID} />
 
-        {genres.map((item) => {
+        {data.map((item) => {
           return <Picker.Item key={item.id} label={item.name} value={item.id} />
         })}
       </Picker>

@@ -9,12 +9,45 @@ import {
   DISCOVER_GENRE_URL,
   VIDEOS_URL,
   IMAGES_URL,
+  DISCOVER_MOVIE,
 } from '../values/URLS'
+
+import { movieClient } from './axiosConfig'
 import axios from 'axios'
 import { Movie } from '../types/Movie'
 import { Genre } from '../types/Genre'
 import { Video } from '../types/Video'
 import { ImageType } from '../types/ImageType'
+
+export const getTrending = (): Promise<Movie[]> => {
+  return doRequestToArrayData(TRENDING_URL)
+}
+
+export const getRecent = (): Promise<Movie[]> => {
+  const params = {
+    year: 2020,
+    with_release_type: '4',
+  }
+  return doRequestToArrayData(DISCOVER_MOVIE, params)
+}
+
+const doRequestToArrayData = (url: string, customParams = {}): Promise<Movie[]> => {
+  return new Promise((resolve, reject) => {
+    movieClient
+      .get(url, { params: customParams })
+      .then((response) => {
+        const data = cleanResult(response.data.results)
+        resolve(data.slice(0, 10))
+      })
+      .catch((err) => reject(err.message))
+  })
+}
+
+const cleanResult = (results: Array<Movie>) => {
+  return results.filter((item: Movie) => {
+    return item.overview && item.backdrop_path && item.poster_path
+  })
+}
 
 class MoviesService {
   static getUpcaming = (): Promise<Movie[]> => {
@@ -60,6 +93,7 @@ class MoviesService {
         .then((response) => resolve(response.data.genres))
         .catch((err) => reject(err.message))
     })
+
   static getMoviesByGenre = (id: number): Promise<Movie[]> =>
     new Promise((resolve, reject) => {
       axios
