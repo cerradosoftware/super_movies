@@ -5,9 +5,11 @@ import { Provider } from 'react-redux'
 import { rootStore } from './src/features/rootReducer'
 
 const App = () => {
-  return (<Provider store={rootStore}>
-    <RootNavigator />
-  </Provider>)  
+  return (
+    <Provider store={rootStore}>
+      <RootNavigator />
+    </Provider>
+  )
 }
 
 export default App
