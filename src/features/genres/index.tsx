@@ -1,4 +1,4 @@
-import { configureStore, createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import MoviesService from '../../services/MoviesService'
 import { Genre } from '../../types/Genre'
 
@@ -18,16 +18,10 @@ export const genreSlice = createSlice({
       state.state = 'loading'
     })
     builder.addCase(fetchGenres.fulfilled, (state, action) => {
-      state = {
-        state: 'finished',
-        data: action.payload,
-      }
+      state.state = 'finished'
+      state.data = [...action.payload]
     })
   },
 })
 
 export const { reducer, actions } = genreSlice
-
-export const genreStore = configureStore({
-  reducer: genreSlice.reducer,
-})

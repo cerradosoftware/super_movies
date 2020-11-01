@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, ScrollView, Image } from 'react-native'
-import PosterList from '../components/PosterList'
+import React, { useEffect } from 'react'
+import { StyleSheet, Image } from 'react-native'
 import BannerList from '../components/BannerList'
-import MoviesService from '../services/MoviesService'
-import { Movie } from '../types/Movie'
 import { RootStackParamList } from '../navigation/NavigationTypes'
 import { StackNavigationProp } from '@react-navigation/stack'
 import TouchIcon from '../components/TouchIcon'
+import { useTypedSelector } from '../features/useTypedSelector'
+import { useDispatch } from 'react-redux'
+import { fetchStreaming } from '../features/movies'
+import { View } from 'react-native'
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'HomeScreen'>
 type Props = {
@@ -29,22 +30,18 @@ export const Home: React.FunctionComponent<Props> = (props) => {
       right: 20,
     },
   })
-  const [trending, setTrending] = useState(new Array<Movie>(0))
-  const [now, setNow] = useState(new Array<Movie>(0))
-  const [popular, setPopular] = useState(new Array<Movie>(0))
+
+  const { data } = useTypedSelector((state) => state.movies)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    void MoviesService.getTrending().then((result) => setTrending(result))
-    void MoviesService.getNow().then((result) => setNow(result))
-    void MoviesService.getPopular().then((result) => setPopular(result))
+    dispatch(fetchStreaming())
   }, [])
 
   return (
-    <ScrollView style={styles.root}>
-      <BannerList list={trending} title="Lançamentos" />
-      <PosterList list={now} title="Agora" disableLoading />
-      <PosterList list={popular} title="Popular" disableLoading />
-    </ScrollView>
+    <View style={styles.root}>
+      <BannerList list={data} title="streaming" />
+    </View>
   )
 }
 
