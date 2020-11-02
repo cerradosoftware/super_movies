@@ -1,28 +1,20 @@
+import { Picker } from '@react-native-community/picker'
+import { useNavigation } from '@react-navigation/native'
 import React, { useState, useEffect, FunctionComponent } from 'react'
 import { StyleSheet, TextInput, View, Alert } from 'react-native'
-import { StackNavigationProp } from '@react-navigation/stack'
-import { RootStackParamList } from '../navigation/NavigationTypes'
-import { Picker } from '@react-native-community/picker'
-import { RouteProp } from '@react-navigation/native'
-import TouchIcon from '../components/TouchIcon'
-import { PosterList } from '../components'
-import { Movie } from '../types/Movie'
-import MoviesService from '../services/MoviesService'
 import { useDispatch } from 'react-redux'
+
+import { PosterList } from '../components'
+import { TouchIcon } from '../components/'
 import { fetchGenres } from '../features/genres'
 import { useTypedSelector } from '../features/useTypedSelector'
-
-type SearchScreenNavigationProp = StackNavigationProp<RootStackParamList, 'SearchScreen'>
-type SearchScreenRouteProp = RouteProp<RootStackParamList, 'SearchScreen'>
-
-type Props = {
-  navigation: SearchScreenNavigationProp
-  route: SearchScreenRouteProp
-}
+import MoviesService from '../services/MoviesService'
+import { Movie } from '../types/Movie'
 
 const INVALID = -1
-export const SearchScreen: FunctionComponent<Props> = (props: Props) => {
-  props.navigation.setOptions({
+export const SearchScreen: FunctionComponent = () => {
+  const navigation = useNavigation()
+  navigation.setOptions({
     headerTitle: '',
     headerTintColor: 'gray',
   })
@@ -56,6 +48,12 @@ export const SearchScreen: FunctionComponent<Props> = (props: Props) => {
     })
   }
 
+  const navigate = (item: Movie) => {
+    navigation.navigate('MovieDetailScreen', {
+      item: item,
+    })
+  }
+
   return (
     <View style={styles.root}>
       <View style={styles.searchView}>
@@ -76,7 +74,7 @@ export const SearchScreen: FunctionComponent<Props> = (props: Props) => {
           return <Picker.Item key={item.id} label={item.name} value={item.id} />
         })}
       </Picker>
-      <PosterList list={result} vertical disableLoading={!loading} />
+      <PosterList list={result} vertical disableLoading={!loading} onPress={navigate} />
     </View>
   )
 }

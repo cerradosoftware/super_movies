@@ -1,18 +1,19 @@
+import { RouteProp } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import moment from 'moment'
 import React, { useState, useEffect, FunctionComponent } from 'react'
 import { View, Text, StyleSheet, Image, Dimensions, ScrollView } from 'react-native'
-import YouTube from 'react-native-youtube'
 import ImageView from 'react-native-image-viewing'
-import { Movie } from '../types/Movie'
+import YouTube from 'react-native-youtube'
+
 import { PosterList, Banner } from '../components'
-import { IMAGE_BASE_URL } from '../values/URLS'
-import MoviesService from '../services/MoviesService'
-import moment from 'moment'
-import { StackNavigationProp } from '@react-navigation/stack'
 import { RootStackParamList } from '../navigation/NavigationTypes'
-import { RouteProp } from '@react-navigation/native'
-import { Video } from '../types/Video'
+import MoviesService from '../services/MoviesService'
 import { ImageType } from '../types/ImageType'
+import { Movie } from '../types/Movie'
+import { Video } from '../types/Video'
 import { YOUTUBE_KEY } from '../values/config'
+import { IMAGE_BASE_URL } from '../values/URLS'
 
 type MovieDetailScreenNavigationProp = StackNavigationProp<RootStackParamList, 'MovieDetailScreen'>
 type MovieDetailScreenRouteProp = RouteProp<RootStackParamList, 'MovieDetailScreen'>

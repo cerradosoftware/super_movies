@@ -1,5 +1,5 @@
-import Banner from './Banner'
-import BannerList from './BannerList'
-import PosterList from './PosterList'
-
-export { Banner, BannerList, PosterList }
+export { Banner } from './banner'
+export { BannerList } from './banner_list'
+export { PosterList } from './poster_list'
+export { TouchIcon } from './touch_icon'
+export { Loader } from './loader'

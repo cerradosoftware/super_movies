@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 import { MOVIEDB_APIKEY } from '../values/config'
 import { BASE_URL, LANG } from '../values/URLS'
 
