@@ -1,8 +1,15 @@
+import axios from 'axios'
+import moment from 'moment'
+
+import { Genre } from '../types/Genre'
+import { ImageType } from '../types/ImageType'
+import { Movie } from '../types/Movie'
+import { Video } from '../types/Video'
 import {
   TRENDING_URL,
   NOW_URL,
   POPULAR_URL,
-  UPCAMING_URL,
+  UPCOMING_URL,
   SIMILAR_URL,
   SEARCH_URL,
   GENDERS_URL,
@@ -11,24 +18,27 @@ import {
   IMAGES_URL,
   DISCOVER_MOVIE,
 } from '../values/URLS'
-
 import { movieClient } from './axiosConfig'
-import axios from 'axios'
-import { Movie } from '../types/Movie'
-import { Genre } from '../types/Genre'
-import { Video } from '../types/Video'
-import { ImageType } from '../types/ImageType'
 
-export const getTrending = (): Promise<Movie[]> => {
-  return doRequestToArrayData(TRENDING_URL)
+export const getCinema = (): Promise<Movie[]> => {
+  const params = {
+    'primary_release_date.gte': moment().subtract(1, 'month').format('YYYY-MM-DD'),
+    with_release_type: 3,
+  }
+
+  return doRequestToArrayData(DISCOVER_MOVIE, params)
 }
 
-export const getRecent = (): Promise<Movie[]> => {
+export const getRecent = (release_type: string): Promise<Movie[]> => {
   const params = {
     year: 2020,
-    with_release_type: '4',
+    with_release_type: release_type,
   }
   return doRequestToArrayData(DISCOVER_MOVIE, params)
+}
+
+export const getUpcoming = (): Promise<Movie[]> => {
+  return doRequestToArrayData(UPCOMING_URL)
 }
 
 const doRequestToArrayData = (url: string, customParams = {}): Promise<Movie[]> => {
@@ -51,7 +61,7 @@ const cleanResult = (results: Array<Movie>) => {
 
 class MoviesService {
   static getUpcaming = (): Promise<Movie[]> => {
-    return MoviesService.doRequestToArrayData(UPCAMING_URL)
+    return MoviesService.doRequestToArrayData(UPCOMING_URL)
   }
 
   static getTrending = (): Promise<Movie[]> => {

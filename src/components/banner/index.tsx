@@ -10,13 +10,12 @@ interface BannerProps {
   width?: number
 }
 
-const Banner: FunctionComponent<BannerProps> = (props) => {
+export const Banner: FunctionComponent<BannerProps> = (props) => {
   const { url, title, poster, onPress, propsStyles, width } = props
 
   let widthCalc = width
   if (!width || width === 0) widthCalc = poster ? 110 : 320
 
-  // const widthCalc = width > 0 ? width : poster ? 110 : 320;
   const ratio = poster ? 10 / 16 : 16 / 10
 
   const styles = StyleSheet.create({
@@ -34,5 +33,3 @@ const Banner: FunctionComponent<BannerProps> = (props) => {
     </TouchableOpacity>
   )
 }
-
-export default Banner

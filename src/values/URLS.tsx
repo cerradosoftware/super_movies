@@ -1,6 +1,6 @@
 export const BASE_URL = 'https://api.themoviedb.org/3'
 export const LANG = 'pt-BR'
-export const UPCAMING_URL = '/movie/upcoming'
+export const UPCOMING_URL = '/movie/upcoming'
 export const TRENDING_URL = '/trending/movie/day?'
 export const NOW_URL = '/movie/now_playing'
 export const POPULAR_URL = '/movie/popular'

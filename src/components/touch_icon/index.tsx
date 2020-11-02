@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import Icon from 'react-native-vector-icons/FontAwesome'
-
 import { ViewStyle, TouchableOpacity } from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 type Props = {
   name: string
@@ -11,7 +10,7 @@ type Props = {
   styles?: ViewStyle
 }
 
-const TouchIcon: FunctionComponent<Props> = (props: Props) => {
+export const TouchIcon: FunctionComponent<Props> = (props: Props) => {
   const { name, size, color, onPress, styles } = props
   return (
     <TouchableOpacity onPress={onPress} style={{ padding: 20, ...styles }}>
@@ -19,5 +18,3 @@ const TouchIcon: FunctionComponent<Props> = (props: Props) => {
     </TouchableOpacity>
   )
 }
-
-export default TouchIcon

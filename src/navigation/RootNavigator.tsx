@@ -1,10 +1,11 @@
-import React, { FunctionComponent } from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
-import { HomeScreen, MovieDetailScreen } from '../screens/'
-import { RootStackParamList } from './NavigationTypes'
-import SearchScreen from '../screens/SearchScreen'
+import { createStackNavigator } from '@react-navigation/stack'
+import React, { FunctionComponent } from 'react'
 import { StatusBar } from 'react-native'
+
+import { HomeScreen, MovieDetailScreen } from '../screens/'
+import SearchScreen from '../screens/SearchScreen'
+import { RootStackParamList } from './NavigationTypes'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
