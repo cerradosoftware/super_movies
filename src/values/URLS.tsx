@@ -7,6 +7,7 @@ export const POPULAR_URL = '/movie/popular'
 export const GENDERS_URL = '/genre/movie/list'
 export const DISCOVER_MOVIE = 'discover/movie'
 export const SEARCH_URL = '/search/movie'
+export const DISCOVER_GENRE_URL = '/discover/movie/'
 
 export const SIMILAR_URL = (id: number): string => {
   return `/movie/${id}/similar`
@@ -22,10 +23,6 @@ export const IMAGES_URL = (id: number): string => {
 
 export const CREDITS_URL = (id: number): string => {
   return `/movie/${id}/credits`
-}
-
-export const DISCOVER_GENRE_URL = (id: number): string => {
-  return `/discover/movie/?&sort_by=popularity.desc&include_adult=false&page=1&with_genres=${id}`
 }
 
 export const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500/'

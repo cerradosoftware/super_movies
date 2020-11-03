@@ -18,6 +18,11 @@ import {
 } from '../values/URLS'
 import { movieClient } from './axiosConfig'
 
+movieClient.interceptors.request.use((request) => {
+  console.log('Starting Request', JSON.stringify(request, null, 2))
+  return request
+})
+
 export const getCinema = (): Promise<Movie[]> => {
   const params = {
     'primary_release_date.gte': moment().subtract(1, 'month').format('YYYY-MM-DD'),
@@ -52,6 +57,14 @@ export const search = (query: string): Promise<Movie[]> => {
     query: query,
   }
   return doRequestToArrayData(SEARCH_URL, params)
+}
+
+export const getMoviesByGenre = (id: number): Promise<Movie[]> => {
+  const params = {
+    with_genres: id,
+    sort_by: 'popularity.desc',
+  }
+  return doRequestToArrayData(DISCOVER_GENRE_URL, params)
 }
 
 const doRequestToArrayData = (url: string, customParams = {}): Promise<Movie[]> => {
@@ -98,17 +111,6 @@ class MoviesService {
       axios
         .get(IMAGES_URL(id))
         .then((response) => resolve(response.data.backdrops))
-        .catch((err) => reject(err.message))
-    })
-
-  static getMoviesByGenre = (id: number): Promise<Movie[]> =>
-    new Promise((resolve, reject) => {
-      axios
-        .get(DISCOVER_GENRE_URL(id))
-        .then((response) => {
-          const data = MoviesService.cleanResult(response.data.results)
-          resolve(data)
-        })
         .catch((err) => reject(err.message))
     })
 

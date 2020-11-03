@@ -4,7 +4,7 @@ import React, { FunctionComponent } from 'react'
 import { StatusBar } from 'react-native'
 
 import { HomeScreen, MovieDetailScreen } from '../screens/'
-import { SearchScreen } from '../screens/search'
+import { GenresScreen } from '../screens/genres'
 import { RootStackParamList } from './NavigationTypes'
 
 const Stack = createStackNavigator<RootStackParamList>()
@@ -27,7 +27,7 @@ const RootNavigator: FunctionComponent = () => {
           }}>
           <Stack.Screen options={{ headerShown: false }} name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="MovieDetailScreen" component={MovieDetailScreen} />
-          <Stack.Screen name="SearchScreen" component={SearchScreen} />
+          <Stack.Screen name="SearchScreen" component={GenresScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
