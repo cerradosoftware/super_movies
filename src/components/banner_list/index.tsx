@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { Text, Dimensions } from 'react-native'
 import Carousel from 'react-native-snap-carousel'
 
-import { Banner } from '../'
+import { Banner } from '../banner'
 import { Movie } from '../../types/Movie'
 import { IMAGE_BASE_URL } from '../../values/URLS'
 import { Loader } from '../loader'

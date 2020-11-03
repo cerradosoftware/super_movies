@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     margin: 8,
     top: 25,
   },
-  rootLoaging: {
+  rootLoading: {
     flex: 1,
     justifyContent: 'center',
   },
@@ -25,7 +25,5 @@ export const styles = StyleSheet.create({
   },
   genreList: {
     marginTop: 10,
-    flexWrap: 'wrap',
-    flexDirection: 'row',
   },
 })

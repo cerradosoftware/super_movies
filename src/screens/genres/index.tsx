@@ -4,7 +4,7 @@ import { ScrollView, View, Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useDispatch } from 'react-redux'
 
-import { Loader, PosterList } from '../../components'
+import { Loader, PosterList, Screen } from '../../components'
 import { fetchGenres, fetchMoviesByGenre } from '../../features/genres'
 import { useTypedSelector } from '../../features/useTypedSelector'
 import { Genre } from '../../types'
@@ -37,7 +37,7 @@ export const GenresScreen: FunctionComponent = () => {
 
   if (genres.state == 'loading' || movies.state == 'loading') {
     return (
-      <View style={styles.rootLoaging}>
+      <View style={styles.rootLoading}>
         <Loader />
       </View>
     )
@@ -55,11 +55,17 @@ export const GenresScreen: FunctionComponent = () => {
   }
 
   return (
-    <View style={styles.root}>
-      <ScrollView horizontal style={styles.genreList} showsHorizontalScrollIndicator={false}>
-        {genres.data.map((item, index) => renderGenreButton(item, index))}
-      </ScrollView>
-      <PosterList list={movies.data} vertical disableLoading onPress={navigate} />
-    </View>
+    <Screen safe>
+      <View style={styles.root}>
+        <View>
+          <ScrollView horizontal style={styles.genreList} showsHorizontalScrollIndicator={false}>
+            {genres.data.map((item, index) => renderGenreButton(item, index))}
+          </ScrollView>
+        </View>
+        <View>
+          <PosterList list={movies.data} vertical disableLoading onPress={navigate} />
+        </View>
+      </View>
+    </Screen>
   )
 }

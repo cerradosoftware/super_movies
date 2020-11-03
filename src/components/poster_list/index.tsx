@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
-import { Text, FlatList } from 'react-native'
+import { Text, FlatList, View } from 'react-native'
 
-import { Banner } from '../'
+import { Banner } from '../banner'
 import { Movie } from '../../types/Movie'
 import { IMAGE_BASE_URL } from '../../values/URLS'
 import { Loader } from '../loader'
@@ -32,12 +32,16 @@ const renderItem = (arrayItem: ItemType, onPress: () => void) => {
   )
 }
 
-export const PosterList: FunctionComponent<PosterListProps> = (props) => {
-  const { list, title, disableLoading, vertical, onPress } = props
-
+export const PosterList: FunctionComponent<PosterListProps> = ({
+  list,
+  title,
+  disableLoading,
+  vertical,
+  onPress,
+}) => {
   if (list && list.length > 0) {
     return (
-      <>
+      <View style={styles.resultView}>
         <Text style={styles.rowTitle}>{title}</Text>
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -48,7 +52,7 @@ export const PosterList: FunctionComponent<PosterListProps> = (props) => {
           horizontal={!vertical}
           numColumns={vertical ? 3 : 1}
         />
-      </>
+      </View>
     )
   } else if (!disableLoading) {
     return <Loader />

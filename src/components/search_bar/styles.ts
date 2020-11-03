@@ -12,5 +12,6 @@ export const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
+    marginRight: 50,
   },
 })

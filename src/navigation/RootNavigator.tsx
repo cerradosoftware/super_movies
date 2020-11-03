@@ -3,8 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import React, { FunctionComponent } from 'react'
 import { StatusBar } from 'react-native'
 
-import { HomeScreen, MovieDetailScreen } from '../screens/'
-import { GenresScreen } from '../screens/genres'
+import { HomeScreen, MovieDetailScreen, GenresScreen } from '../screens/'
 import { RootStackParamList } from './NavigationTypes'
 
 const Stack = createStackNavigator<RootStackParamList>()
@@ -12,7 +11,7 @@ const Stack = createStackNavigator<RootStackParamList>()
 const RootNavigator: FunctionComponent = () => {
   return (
     <>
-      <StatusBar backgroundColor="white" barStyle="dark-content" />
+      <StatusBar backgroundColor="#E0E0E0" barStyle="dark-content" />
       <NavigationContainer>
         <Stack.Navigator
           headerMode="float"
@@ -25,7 +24,11 @@ const RootNavigator: FunctionComponent = () => {
               textShadowRadius: 8,
             },
           }}>
-          <Stack.Screen options={{ headerShown: false }} name="HomeScreen" component={HomeScreen} />
+          <Stack.Screen
+            options={{ headerShown: false, title: '' }}
+            name="HomeScreen"
+            component={HomeScreen}
+          />
           <Stack.Screen name="MovieDetailScreen" component={MovieDetailScreen} />
           <Stack.Screen name="SearchScreen" component={GenresScreen} />
         </Stack.Navigator>

@@ -13,3 +13,19 @@ export const movieClient = axios.create({
     region: 'BR',
   },
 })
+
+export const videoClient = axios.create({
+  baseURL: BASE_URL,
+  params: {
+    api_key: MOVIEDB_APIKEY,
+    language: LANG,
+    site: 'YouTube',
+  },
+})
+
+export const basicClient = axios.create({
+  baseURL: BASE_URL,
+  params: {
+    api_key: MOVIEDB_APIKEY,
+  },
+})
