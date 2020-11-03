@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-import { getCinema, getRecent, getUpcoming } from '../../services/MoviesService'
+import { getCinema, getRecent, getUpcoming, search } from '../../services/MoviesService'
 import { Movie } from '../../types/'
 
 type SliceState = { state: 'loading' | 'idle' | 'finished' | 'error'; data: Array<Movie> }
 
-export const fetchStreaming = createAsyncThunk('movies/straming', async () => {
+export const fetchStreaming = createAsyncThunk('movies/streaming', async () => {
   const movies = getRecent('4')
   return movies
 })
@@ -17,6 +17,11 @@ export const fetchUpcoming = createAsyncThunk('movies/upcoming', async () => {
 
 export const fetchCinema = createAsyncThunk('movies/cinema', async () => {
   const movies = getCinema()
+  return movies
+})
+
+export const fetchQuery = createAsyncThunk('movies/query', async (query: string) => {
+  const movies = search(query)
   return movies
 })
 
@@ -59,6 +64,21 @@ export const cinemaSlice = createSlice({
       state.state = 'loading'
     })
     builder.addCase(fetchCinema.fulfilled, (state, action) => {
+      state.state = 'finished'
+      state.data = [...action.payload]
+    })
+  },
+})
+
+export const querySlice = createSlice({
+  name: 'query',
+  initialState: { data: [], state: 'idle' } as SliceState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchQuery.pending, (state) => {
+      state.state = 'loading'
+    })
+    builder.addCase(fetchQuery.fulfilled, (state, action) => {
       state.state = 'finished'
       state.data = [...action.payload]
     })

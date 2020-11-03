@@ -7,8 +7,6 @@ import { Movie } from '../types/Movie'
 import { Video } from '../types/Video'
 import {
   TRENDING_URL,
-  NOW_URL,
-  POPULAR_URL,
   UPCOMING_URL,
   SIMILAR_URL,
   SEARCH_URL,
@@ -25,7 +23,6 @@ export const getCinema = (): Promise<Movie[]> => {
     'primary_release_date.gte': moment().subtract(1, 'month').format('YYYY-MM-DD'),
     with_release_type: 3,
   }
-
   return doRequestToArrayData(DISCOVER_MOVIE, params)
 }
 
@@ -39,6 +36,22 @@ export const getRecent = (release_type: string): Promise<Movie[]> => {
 
 export const getUpcoming = (): Promise<Movie[]> => {
   return doRequestToArrayData(UPCOMING_URL)
+}
+
+export const getGenders = (): Promise<Genre[]> => {
+  return new Promise((resolve, reject) => {
+    movieClient
+      .get(GENDERS_URL)
+      .then((response) => resolve(response.data.genres))
+      .catch((err) => reject(err.message))
+  })
+}
+
+export const search = (query: string): Promise<Movie[]> => {
+  const params = {
+    query: query,
+  }
+  return doRequestToArrayData(SEARCH_URL, params)
 }
 
 const doRequestToArrayData = (url: string, customParams = {}): Promise<Movie[]> => {
@@ -88,22 +101,6 @@ class MoviesService {
         .catch((err) => reject(err.message))
     })
 
-  static search = (query: string): Promise<Movie[]> =>
-    new Promise((resolve, reject) => {
-      axios
-        .get(SEARCH_URL(query))
-        .then((response) => resolve(response.data.results))
-        .catch((err) => reject(err.message))
-    })
-
-  static getGenders = (): Promise<Genre[]> =>
-    new Promise((resolve, reject) => {
-      axios
-        .get(GENDERS_URL)
-        .then((response) => resolve(response.data.genres))
-        .catch((err) => reject(err.message))
-    })
-
   static getMoviesByGenre = (id: number): Promise<Movie[]> =>
     new Promise((resolve, reject) => {
       axios
@@ -114,14 +111,6 @@ class MoviesService {
         })
         .catch((err) => reject(err.message))
     })
-
-  static getNow = (): Promise<Movie[]> => {
-    return MoviesService.doRequestToArrayData(NOW_URL)
-  }
-
-  static getPopular(): Promise<Movie[]> {
-    return MoviesService.doRequestToArrayData(POPULAR_URL)
-  }
 
   static doRequestToArrayData = (url: string): Promise<Movie[]> =>
     new Promise((resolve, reject) => {
