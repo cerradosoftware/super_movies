@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import { genreSlice } from './genres'
-import { cinemaSlice, streamingSlice, upComingSlice } from './movies'
+import { genreSlice, moviesByGenreSlice } from './genres'
+import { cinemaSlice, streamingSlice, upComingSlice, querySlice } from './movies'
 
 export const rootStore = configureStore({
   reducer: {
@@ -9,6 +9,8 @@ export const rootStore = configureStore({
     streaming: streamingSlice.reducer,
     upcoming: upComingSlice.reducer,
     cinema: cinemaSlice.reducer,
+    query: querySlice.reducer,
+    moviesByGenre: moviesByGenreSlice.reducer,
   },
 })
 
