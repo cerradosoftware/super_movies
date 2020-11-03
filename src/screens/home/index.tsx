@@ -4,8 +4,7 @@ import { Alert, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useDispatch } from 'react-redux'
 
-import { TouchIcon, PosterList, BannerList, Loader } from '../../components'
-import { SearchBar } from '../../components/search_bar'
+import { TouchIcon, PosterList, BannerList, Loader, Screen, SearchBar } from '../../components'
 import { fetchCinema, fetchQuery, fetchStreaming, fetchUpcoming } from '../../features/movies'
 import { useTypedSelector } from '../../features/useTypedSelector'
 import { Movie } from '../../types'
@@ -33,7 +32,7 @@ export const HomeScreen: React.FunctionComponent = () => {
     queryResult.state == 'loading'
   ) {
     return (
-      <View style={styles.rootLoaging}>
+      <View style={styles.rootLoading}>
         <Loader />
       </View>
     )
@@ -67,7 +66,7 @@ export const HomeScreen: React.FunctionComponent = () => {
     dispatch(fetchQuery(query))
   }
   return (
-    <>
+    <Screen safe>
       <View style={styles.header}>
         <TouchIcon
           name={'bars'}
@@ -80,9 +79,10 @@ export const HomeScreen: React.FunctionComponent = () => {
           }}
           query={query}
           onQuery={doQuery}
+          onCancel={() => setQuery('')}
         />
       </View>
       {RenderContent()}
-    </>
+    </Screen>
   )
 }

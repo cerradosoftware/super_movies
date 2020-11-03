@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     marginStart: 10,
     marginTop: 10,
   },
-  rootLoaging: {
+  rootLoading: {
     flex: 1,
     justifyContent: 'center',
   },
@@ -14,6 +14,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderBottomColor: '#E0E0E0',
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.75,
   },
 })

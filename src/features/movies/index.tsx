@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-import { getCinema, getRecent, getUpcoming, search } from '../../services/MoviesService'
+import { getCinema, getRecent, getUpcoming, search } from '../../services/moviesService'
 import { Movie } from '../../types/'
 
 type SliceState = { state: 'loading' | 'idle' | 'finished' | 'error'; data: Array<Movie> }

@@ -5,4 +5,7 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     textTransform: 'uppercase',
   },
+  resultView: {
+    alignItems: 'center',
+  },
 })

@@ -1,2 +1,5 @@
 export * from './Movie'
 export * from './Genre'
+export * from './ImageType'
+export * from './Video'
+export * from './Cast'
