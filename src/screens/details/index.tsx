@@ -91,7 +91,12 @@ export const MovieDetailScreen: FunctionComponent<Props> = () => {
           <Text style={styles.label}>Cast</Text>
           <ScrollView showsHorizontalScrollIndicator={false} horizontal style={styles.castList}>
             {cast.data.map((item, index) => (
-              <Avatar key={`av${index}`} item={item} />
+              <Avatar
+                key={`av${index}`}
+                imageUrl={`${IMAGE_BASE_URL}${item.profile_path}`}
+                title={item.character}
+                subtitle={item.name}
+              />
             ))}
           </ScrollView>
         </View>

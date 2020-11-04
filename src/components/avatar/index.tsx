@@ -1,26 +1,22 @@
 import React, { FunctionComponent } from 'react'
 import { Image, Text, View } from 'react-native'
 
-import { Cast } from '../../types'
-import { IMAGE_BASE_URL } from '../../values/URLS'
 import { styles } from './styles'
 
-interface AvatarProps {
-  item: Cast
+export interface AvatarProps {
+  imageUrl: string
+  subtitle?: string
+  title: string
 }
 
-export const Avatar: FunctionComponent<AvatarProps> = ({ item }) => {
+export const Avatar: FunctionComponent<AvatarProps> = ({ imageUrl, subtitle, title }) => {
   return (
-    <View style={styles.root}>
+    <View testID="View_Avatar" style={styles.root}>
       <View style={styles.circle}>
-        <Image
-          borderRadius={25}
-          style={styles.image}
-          source={{ uri: `${IMAGE_BASE_URL}${item.profile_path}` }}
-        />
+        <Image borderRadius={25} style={styles.image} source={{ uri: imageUrl }} />
       </View>
-      <Text style={styles.character}>{item.character}</Text>
-      <Text style={styles.name}>{item.name}</Text>
+      <Text style={styles.character}>{title}</Text>
+      <Text style={styles.name}>{subtitle}</Text>
     </View>
   )
 }
