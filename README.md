@@ -1,4 +1,5 @@
-# Super Movies
+
+# Super Movies <img src="/src/assets/icon.png" width="30">
 
 Aplicativo de consulta e dicas de filmes. Suas principais funcionalidades são:
 1. Listar filmes em exibição nos cinemas
