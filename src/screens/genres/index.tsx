@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect, FunctionComponent } from 'react'
+import React, { useEffect, FunctionComponent, useState } from 'react'
 import { ScrollView, View, Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useDispatch } from 'react-redux'
@@ -17,13 +17,21 @@ export const GenresScreen: FunctionComponent = () => {
   const genres = useTypedSelector((state) => state.genres)
   const movies = useTypedSelector((state) => state.moviesByGenre)
   const dispatch = useDispatch()
+  const [selectedGenre, setSelectedGenre] = useState<Genre>()
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: '',
-      headerTintColor: 'gray',
+      headerTitle: selectedGenre?.name,
+      headerTintColor: 'black',
+      headerTitleStyle: {},
     })
-  }, [])
+  }, [selectedGenre])
+
+  useEffect(() => {
+    if (selectedGenre?.id) {
+      dispatch(fetchMoviesByGenre({ id: selectedGenre.id, nextPage: 1 }))
+    }
+  }, [selectedGenre])
 
   useEffect(() => {
     dispatch(fetchGenres())
@@ -35,7 +43,7 @@ export const GenresScreen: FunctionComponent = () => {
     })
   }
 
-  if (genres.state == 'loading' || movies.state == 'loading') {
+  if (genres.state == 'loading') {
     return (
       <View style={styles.rootLoading}>
         <Loader />
@@ -48,7 +56,7 @@ export const GenresScreen: FunctionComponent = () => {
       <TouchableOpacity
         style={styles.genreButton}
         key={index}
-        onPress={() => dispatch(fetchMoviesByGenre(item.id))}>
+        onPress={() => setSelectedGenre(item)}>
         <Text style={styles.genresText}>{item.name}</Text>
       </TouchableOpacity>
     )
@@ -63,7 +71,22 @@ export const GenresScreen: FunctionComponent = () => {
           </ScrollView>
         </View>
         <View>
-          <PosterList list={movies.data} vertical disableLoading onPress={navigate} />
+          <PosterList
+            list={movies.data}
+            vertical
+            disableLoading
+            onPress={navigate}
+            onEnd={() => {
+              if (selectedGenre && movies.page < movies.total_pages) {
+                dispatch(fetchMoviesByGenre({ id: selectedGenre.id, nextPage: movies.page + 1 }))
+              }
+            }}
+          />
+          {movies.state == 'loading' && (
+            <View style={{ height: 50, width: 50, marginBottom: 50, justifyContent: 'center' }}>
+              <Loader />
+            </View>
+          )}
         </View>
       </View>
     </Screen>

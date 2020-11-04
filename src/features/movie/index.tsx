@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 import { getCredits, getImages, getRelated, getVideos } from '../../services/moviesService'
-import { Movie, ImageType, Video, Cast } from '../../types/'
+import { ImageType, Video, Cast } from '../../types/'
+import { MovieSliceState } from '../movies'
 
-type SliceStateMovie = { state: 'loading' | 'idle' | 'finished' | 'error'; data: Array<Movie> }
 type SliceStateImage = { state: 'loading' | 'idle' | 'finished' | 'error'; data: Array<ImageType> }
 type SliceStateVideo = { state: 'loading' | 'idle' | 'finished' | 'error'; data: Array<Video> }
 type SliceStateCast = { state: 'loading' | 'idle' | 'finished' | 'error'; data: Array<Cast> }
@@ -30,7 +30,7 @@ export const fetchCast = createAsyncThunk('movies/videos', async (id: number) =>
 
 export const relatedSlice = createSlice({
   name: 'related',
-  initialState: { data: [], state: 'idle' } as SliceStateMovie,
+  initialState: { data: [], state: 'idle' } as MovieSliceState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchRelated.pending, (state) => {
@@ -38,7 +38,9 @@ export const relatedSlice = createSlice({
     })
     builder.addCase(fetchRelated.fulfilled, (state, action) => {
       state.state = 'finished'
-      state.data = [...action.payload]
+      state.data = [...action.payload.results]
+      state.page = action.payload.page
+      state.total_pages = action.payload.total_pages
     })
   },
 })
