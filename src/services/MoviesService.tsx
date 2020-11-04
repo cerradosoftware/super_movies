@@ -1,21 +1,14 @@
 import moment from 'moment'
 
-import { Cast } from '../types'
+import { Cast, MoviesReponse } from '../types'
 import { Genre } from '../types/Genre'
 import { ImageType } from '../types/ImageType'
 import { Movie } from '../types/Movie'
 import { Video } from '../types/Video'
-import {
-  UPCOMING_URL,
-  SEARCH_URL,
-  GENDERS_URL,
-  DISCOVER_GENRE_URL,
-  DISCOVER_MOVIE,
-  MOVIE,
-} from '../values/URLS'
+import { UPCOMING_URL, SEARCH_URL, GENDERS_URL, DISCOVER_MOVIE, MOVIE } from '../values/URLS'
 import { basicClient, movieClient, videoClient } from './axiosConfig'
 
-export const getCinema = (): Promise<Movie[]> => {
+export const getCinema = (): Promise<MoviesReponse> => {
   const params = {
     'primary_release_date.gte': moment().subtract(1, 'month').format('YYYY-MM-DD'),
     with_release_type: 3,
@@ -23,7 +16,7 @@ export const getCinema = (): Promise<Movie[]> => {
   return doRequestToArrayData(DISCOVER_MOVIE, params)
 }
 
-export const getRecent = (release_type: string): Promise<Movie[]> => {
+export const getRecent = (release_type: string): Promise<MoviesReponse> => {
   const params = {
     year: 2020,
     with_release_type: release_type,
@@ -31,7 +24,7 @@ export const getRecent = (release_type: string): Promise<Movie[]> => {
   return doRequestToArrayData(DISCOVER_MOVIE, params)
 }
 
-export const getUpcoming = (): Promise<Movie[]> => {
+export const getUpcoming = (): Promise<MoviesReponse> => {
   return doRequestToArrayData(UPCOMING_URL)
 }
 
@@ -44,22 +37,23 @@ export const getGenders = (): Promise<Genre[]> => {
   })
 }
 
-export const search = (query: string): Promise<Movie[]> => {
+export const search = (query: string): Promise<MoviesReponse> => {
   const params = {
     query: query,
   }
   return doRequestToArrayData(SEARCH_URL, params)
 }
 
-export const getMoviesByGenre = (id: number): Promise<Movie[]> => {
+export const getMoviesByGenre = (id: number, nextPage = 1): Promise<MoviesReponse> => {
   const params = {
     with_genres: id,
     sort_by: 'popularity.desc',
+    page: nextPage > 0 ? nextPage : 1,
   }
-  return doRequestToArrayData(DISCOVER_GENRE_URL, params)
+  return doRequestToArrayData(DISCOVER_MOVIE, params)
 }
 
-export const getRelated = (id: number): Promise<Movie[]> => {
+export const getRelated = (id: number): Promise<MoviesReponse> => {
   return doRequestToArrayData(`${MOVIE}${id}/similar`)
 }
 
@@ -87,13 +81,14 @@ export const getCredits = (id: number): Promise<Cast[]> =>
       .catch((err) => reject(err.message))
   })
 
-const doRequestToArrayData = (url: string, customParams = {}): Promise<Movie[]> => {
+const doRequestToArrayData = (url: string, customParams = {}): Promise<MoviesReponse> => {
   return new Promise((resolve, reject) => {
     movieClient
       .get(url, { params: customParams })
       .then((response) => {
-        const data = cleanResult(response.data.results)
-        resolve(data)
+        response.data.results = cleanResult(response.data.results)
+
+        resolve(response.data)
       })
       .catch((err) => reject(err.message))
   })

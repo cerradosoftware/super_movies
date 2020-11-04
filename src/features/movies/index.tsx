@@ -3,7 +3,12 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { getCinema, getRecent, getUpcoming, search } from '../../services/moviesService'
 import { Movie } from '../../types/'
 
-type SliceState = { state: 'loading' | 'idle' | 'finished' | 'error'; data: Array<Movie> }
+export type MovieSliceState = {
+  state: 'loading' | 'idle' | 'finished' | 'error'
+  data: Array<Movie>
+  page: number
+  total_pages?: number
+}
 
 export const fetchStreaming = createAsyncThunk('movies/streaming', async () => {
   const movies = getRecent('4')
@@ -27,7 +32,7 @@ export const fetchQuery = createAsyncThunk('movies/query', async (query: string)
 
 export const streamingSlice = createSlice({
   name: 'streaming',
-  initialState: { data: [], state: 'idle' } as SliceState,
+  initialState: { data: [], state: 'idle', page: 1 } as MovieSliceState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchStreaming.pending, (state) => {
@@ -35,14 +40,16 @@ export const streamingSlice = createSlice({
     })
     builder.addCase(fetchStreaming.fulfilled, (state, action) => {
       state.state = 'finished'
-      state.data = [...action.payload]
+      state.data = [...action.payload.results]
+      state.page = action.payload.page
+      state.total_pages = action.payload.total_pages
     })
   },
 })
 
 export const upComingSlice = createSlice({
   name: 'upcoming',
-  initialState: { data: [], state: 'idle' } as SliceState,
+  initialState: { data: [], state: 'idle', page: 1 } as MovieSliceState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchUpcoming.pending, (state) => {
@@ -50,14 +57,16 @@ export const upComingSlice = createSlice({
     })
     builder.addCase(fetchUpcoming.fulfilled, (state, action) => {
       state.state = 'finished'
-      state.data = [...action.payload]
+      state.data = [...action.payload.results]
+      state.page = action.payload.page
+      state.total_pages = action.payload.total_pages
     })
   },
 })
 
 export const cinemaSlice = createSlice({
   name: 'cinema',
-  initialState: { data: [], state: 'idle' } as SliceState,
+  initialState: { data: [], state: 'idle', page: 1 } as MovieSliceState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchCinema.pending, (state) => {
@@ -65,14 +74,16 @@ export const cinemaSlice = createSlice({
     })
     builder.addCase(fetchCinema.fulfilled, (state, action) => {
       state.state = 'finished'
-      state.data = [...action.payload]
+      state.data = [...action.payload.results]
+      state.page = action.payload.page
+      state.total_pages = action.payload.total_pages
     })
   },
 })
 
 export const querySlice = createSlice({
   name: 'query',
-  initialState: { data: [], state: 'idle' } as SliceState,
+  initialState: { data: [], state: 'idle', page: 1 } as MovieSliceState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchQuery.pending, (state) => {
@@ -80,7 +91,9 @@ export const querySlice = createSlice({
     })
     builder.addCase(fetchQuery.fulfilled, (state, action) => {
       state.state = 'finished'
-      state.data = [...action.payload]
+      state.data = [...action.payload.results]
+      state.page = action.payload.page
+      state.total_pages = action.payload.total_pages
     })
   },
 })

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import { Text, FlatList, View } from 'react-native'
 
 import { Banner } from '../banner'
@@ -13,6 +13,7 @@ interface PosterListProps {
   disableLoading?: boolean
   vertical?: boolean
   onPress: (item: Movie) => void
+  onEnd?: () => void
 }
 
 interface ItemType {
@@ -38,21 +39,36 @@ export const PosterList: FunctionComponent<PosterListProps> = ({
   disableLoading,
   vertical,
   onPress,
+  onEnd,
 }) => {
+  const [onEndReachedCalledDuringMomentum, setOnEndReachedCalledDuringMomentum] = useState(false)
+
   if (list && list.length > 0) {
     return (
-      <View style={styles.resultView}>
+      <>
         <Text style={styles.rowTitle}>{title}</Text>
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          data={list}
-          renderItem={(item) => renderItem(item, () => onPress(item.item))}
-          keyExtractor={(item) => item.id.toString()}
-          horizontal={!vertical}
-          numColumns={vertical ? 3 : 1}
-        />
-      </View>
+        <View style={styles.resultView}>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            data={list}
+            renderItem={(item) => renderItem(item, () => onPress(item.item))}
+            keyExtractor={(item) => item.id.toString()}
+            horizontal={!vertical}
+            numColumns={vertical ? 3 : 1}
+            onEndReached={() => {
+              if (!onEndReachedCalledDuringMomentum) {
+                if (onEnd) onEnd()
+                setOnEndReachedCalledDuringMomentum(true)
+              }
+            }}
+            onEndReachedThreshold={0.1}
+            onMomentumScrollBegin={() => {
+              setOnEndReachedCalledDuringMomentum(false)
+            }}
+          />
+        </View>
+      </>
     )
   } else if (!disableLoading) {
     return <Loader />
