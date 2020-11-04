@@ -83,7 +83,7 @@ export const GenresScreen: FunctionComponent = () => {
             }}
           />
           {movies.state == 'loading' && (
-            <View style={{ height: 50, width: 50, marginBottom: 50, justifyContent: 'center' }}>
+            <View style={styles.smallLoading}>
               <Loader />
             </View>
           )}

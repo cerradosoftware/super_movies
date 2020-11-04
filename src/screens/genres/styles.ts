@@ -26,4 +26,5 @@ export const styles = StyleSheet.create({
   genreList: {
     marginTop: 10,
   },
+  smallLoading: { height: 50, width: 50, marginBottom: 50, alignSelf: 'center' },
 })
