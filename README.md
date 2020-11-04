@@ -8,10 +8,17 @@ Aplicativo de consulta e dicas de filmes. Suas principais funcionalidades são:
 4. Listar filmes por genêro, com paginação
 5. Exibe detalhes dos filmes, com catalogo de fotos, trailer e elenco
 
-Screens do app ao final do arquivo
+### Screens
+
+| <img src="/screens/home.png" width="200">
+| <img src="/screens/busca.png" width="200">
+| <img src="/screens/generos.png" width="200">
+| <img src="/screens/generos2.png" width="200">
+| <img src="/screens/detalhes.png" width="200">
+| <img src="/screens/detalhes 2.png" width="200"
 
 ## Executando o projeto
-- Apos clonar o projeto: 
+- Após clonar o projeto: 
 - yarn install
 - cd ios && pod install (se ios)
 - yarn android ou yarn ios para executar
@@ -49,14 +56,7 @@ Componentes para exibição de posteres, listagens e botoes foram criados, para 
 - O redux faz a ponte entre a camada de serviço e tela
 - A telam se preocupa em obter inputs dos usuarios e mostrar resultados. Dessa forma, adicionar uma nova tela nao é um trabalho tão arduo, visto que basta fazer referencias ao redux.
 
-### Screens
-
-| <img src="/screens/home.png" width="200">
-| <img src="/screens/busca.png" width="200">
-| <img src="/screens/generos.png" width="200">
-| <img src="/screens/generos2.png" width="200">
-| <img src="/screens/detalhes.png" width="200">
-| <img src="/screens/detalhes 2.png" width="200">
+>
 
 
 
