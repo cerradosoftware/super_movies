@@ -194,7 +194,6 @@
 				282A5BB35BB79DFB4181A8DB /* Pods-SuperMovies-tvOSTests.debug.xcconfig */,
 				A129F10116DD4F3B843AEEB7 /* Pods-SuperMovies-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
